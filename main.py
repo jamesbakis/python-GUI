@@ -22,19 +22,22 @@ units_all = (enemy_1, enemy_2, enemy_3, pos)
 def enemy_collision():
     for enemy in enemy_all:
         if pos[0] == enemy[0] and pos[1] == enemy[1]:
-            exit()
-
+            score.configure(text="GAME OVER")
+    
 def crystal_collision(points):    
     for unit in units_all:
         if crystal[0] == unit[0] and crystal[1] == unit[1]:
-            if unit == pos:
+            if unit[0] == pos[0] and unit[1] == pos[1]:
                 points[0] += 1
+                score.configure(text="Score: " + str(points[0]))
             x = random.randint(0, 6)
             y = random.randint(0, 6)
             while [x, y] in units_all:
                 x = random.randint(0, 6)
-                y = random.randint(0, 6)
+                y = random.randint(0, 6)   
             cells[x][y].set_crystal()
+            crystal[0] = x
+            crystal[1] = y
             break
 
 
@@ -84,28 +87,47 @@ def move_down(direction):
 
 def move_enemy(enemies):
     for enemy in enemies:
-        direction = random.randint(0, 3)
         cells[enemy[0]][enemy[1]].set_empty()
-        if direction == 0: #left
-            if enemy[1] == 0:
-                enemy[1] = 6
-            else:
-                enemy[1] -= 1
-        elif direction == 1: #right
-            if enemy[1] == 6:
-                enemy[1] = 0
-            else:
-                enemy[1] += 1
-        elif direction == 2: #up
-            if enemy[0] == 0:
-                enemy[0] = 6
-            else:
-                enemy[0] -= 1
-        elif direction == 3: #down
-            if enemy[0] == 6:
-                enemy[0] = 0 
-            else:
-                enemy[0] += 1   
+        occupied = True
+        while occupied:
+            direction = random.randint(0, 3)
+            if direction == 0: #left
+                if enemy[1] == 0:
+                    if [enemy[0], 6] not in enemies:
+                        enemy[1] = 6
+                        occupied = False
+                else:
+                    if [enemy[0], enemy[1] - 1] not in enemies:
+                        enemy[1] -= 1
+                        occupied = False
+            elif direction == 1: #right
+                if enemy[1] == 6:
+                    if [enemy[0], 0] not in enemies:
+                        enemy[1] = 0
+                        occupied = False
+                else:
+                    if [enemy[0], enemy[1] + 1] not in enemies:
+                        enemy[1] += 1
+                        occupied = False
+            elif direction == 2: #up
+                if enemy[0] == 0:
+                    if [6, enemy[1]] not in enemies:
+                        enemy[0] = 6
+                        occupied = False
+                else:
+                    if [enemy[0] - 1, enemy[1]] not in enemies:
+                        enemy[0] -= 1
+                        occupied = False
+            elif direction == 3: #down
+                if enemy[0] == 6:
+                    if [0, enemy[1]] not in enemies:
+                        enemy[0] = 0
+                        occupied = False 
+                else:
+                    if [enemy[0] + 1, enemy[1]] not in enemies:
+                        enemy[0] += 1
+                        occupied = False  
+
         cells[enemy[0]][enemy[1]].set_enemy()
 
 def main():
@@ -116,8 +138,6 @@ def main():
     root.geometry("700x700+300+0")
     # root.minsize(720, 480)
     # root.maxsize(720, 480)
-    
-    # label1 = tk.Label(root, text="Collect crystals!")
     # label2 = tk.Label(root, text="Avoid enemies!")
 
     for row in range(7):
@@ -133,6 +153,10 @@ def main():
             else:
                 cell.set_empty()
             cells[row].append(cell)
+    global score
+    score = tk.Label(root, text="Score: " + str(points[0]))
+    score.grid(row=3, column=3)
+    score.tkraise() 
     root.bind("<Right>", move_right)
     root.bind("<Left>", move_left)
     root.bind("<Up>", move_up)
