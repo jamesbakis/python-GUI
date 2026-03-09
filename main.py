@@ -1,31 +1,46 @@
 import tkinter as tk
 from square import square
+import enum
 
 cells = []
-player_pos = [3, 3]
+pos = [3, 3]
 
-def move_right(direction):
-    player_row = player_pos[0]
-    player_col = player_pos[1]    
-    cells[player_row][player_col].set_empty()
+
+
+def move_right(direction):    
+    cells[pos[0]][pos[1]].set_empty()
+    if pos[1] == 6:
+        pos[1] = 0
+    else:
+        pos[1] += 1
+    cells[pos[0]][pos[1]].set_player()
     print("right")
 
-def move_left(direction):
-    player_row = player_pos[0]
-    player_col = player_pos[1]    
-    cells[player_row][player_col].set_empty()
+def move_left(direction):   
+    cells[pos[0]][pos[1]].set_empty()
+    if pos[1] == 0:
+        pos[1] =6
+    else:
+        pos[1] -= 1
+    cells[pos[0]][pos[1]].set_player()
     print("left")
 
-def move_up(direction):
-    player_row = player_pos[0]
-    player_col = player_pos[1]    
-    cells[player_row][player_col].set_empty()
+def move_up(direction):   
+    cells[pos[0]][pos[1]].set_empty()
+    if pos[0] == 0:
+        pos[0] = 6
+    else:
+        pos[0] -= 1
+    cells[pos[0]][pos[1]].set_player()
     print("up")
 
 def move_down(direction):
-    player_row = player_pos[0]
-    player_col = player_pos[1]    
-    cells[player_row][player_col].set_empty()
+    cells[pos[0]][pos[1]].set_empty()
+    if pos[0] == 6:
+        pos[0] = 0
+    else:
+        pos[0] += 1
+    cells[pos[0]][pos[1]].set_player()
     print("down")
 
 def main():
