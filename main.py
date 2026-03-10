@@ -5,6 +5,8 @@ import random
 cells = []
 pos = [3, 3]
 
+game_over = False
+
 points = [0]
 
 enemy_1 = [0, 0]
@@ -23,7 +25,10 @@ def enemy_collision():
     for enemy in enemy_all:
         if pos[0] == enemy[0] and pos[1] == enemy[1]:
             score.configure(text="GAME OVER")
-    
+
+            global game_over
+            game_over = True
+
 def crystal_collision(points):    
     for unit in units_all:
         if crystal[0] == unit[0] and crystal[1] == unit[1]:
@@ -42,7 +47,9 @@ def crystal_collision(points):
 
 
 def move_right(direction): 
-       
+    global game_over
+    if game_over:
+        return 
     cells[pos[0]][pos[1]].set_empty()
     if pos[1] == 6:
         pos[1] = 0
@@ -53,7 +60,10 @@ def move_right(direction):
     crystal_collision(points)
     enemy_collision()
 
-def move_left(direction):   
+def move_left(direction): 
+    global game_over
+    if game_over:
+        return   
     cells[pos[0]][pos[1]].set_empty()
     if pos[1] == 0:
         pos[1] =6
@@ -64,7 +74,10 @@ def move_left(direction):
     crystal_collision(points)
     enemy_collision()
 
-def move_up(direction):    
+def move_up(direction): 
+    global game_over
+    if game_over:
+        return    
     cells[pos[0]][pos[1]].set_empty()
     if pos[0] == 0:
         pos[0] = 6
@@ -76,6 +89,9 @@ def move_up(direction):
     enemy_collision()
 
 def move_down(direction): 
+    global game_over
+    if game_over:
+        return 
     cells[pos[0]][pos[1]].set_empty()
     if pos[0] == 6:
         pos[0] = 0
@@ -88,7 +104,10 @@ def move_down(direction):
 
 def move_enemy(enemies):
     for enemy in enemies:
-        cells[enemy[0]][enemy[1]].set_empty()
+        if enemy[0] == pos[0] and enemy[1] == pos[1]:
+            pass
+        else:
+            cells[enemy[0]][enemy[1]].set_empty()
         occupied = True
         while occupied:
             direction = random.randint(0, 3)
@@ -128,7 +147,7 @@ def move_enemy(enemies):
                     if [enemy[0] + 1, enemy[1]] not in enemies:
                         enemy[0] += 1
                         occupied = False  
-
+        
         cells[enemy[0]][enemy[1]].set_enemy()
 
 def main():
