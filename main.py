@@ -42,46 +42,47 @@ def crystal_collision(points):
 
 
 def move_right(direction): 
-    move_enemy(enemy_all)   
+       
     cells[pos[0]][pos[1]].set_empty()
     if pos[1] == 6:
         pos[1] = 0
     else:
         pos[1] += 1
     cells[pos[0]][pos[1]].set_player()
+    move_enemy(enemy_all)
     crystal_collision(points)
     enemy_collision()
 
 def move_left(direction):   
-    move_enemy(enemy_all) 
     cells[pos[0]][pos[1]].set_empty()
     if pos[1] == 0:
         pos[1] =6
     else:
         pos[1] -= 1
     cells[pos[0]][pos[1]].set_player()
+    move_enemy(enemy_all)
     crystal_collision(points)
     enemy_collision()
 
-def move_up(direction):   
-    move_enemy(enemy_all) 
+def move_up(direction):    
     cells[pos[0]][pos[1]].set_empty()
     if pos[0] == 0:
         pos[0] = 6
     else:
         pos[0] -= 1
     cells[pos[0]][pos[1]].set_player()
+    move_enemy(enemy_all)
     crystal_collision(points)
     enemy_collision()
 
-def move_down(direction):
-    move_enemy(enemy_all) 
+def move_down(direction): 
     cells[pos[0]][pos[1]].set_empty()
     if pos[0] == 6:
         pos[0] = 0
     else:
         pos[0] += 1
     cells[pos[0]][pos[1]].set_player()
+    move_enemy(enemy_all)
     crystal_collision(points)
     enemy_collision()
 
