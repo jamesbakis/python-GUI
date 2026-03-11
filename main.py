@@ -17,7 +17,7 @@ units_all = (enemy_1, enemy_2, enemy_3, pos)
 def enemy_collision():
     for enemy in enemy_all:
         if pos[0] == enemy[0] and pos[1] == enemy[1]:
-            score.configure(text="GAME OVER \nPRESS \"R\" TO RESTART")
+            score.configure(text="Score: " + str(points[0]) + "\nGAME OVER \nPRESS \"R\" TO RESTART")
             score.pack_forget() 
 
             global game_over
