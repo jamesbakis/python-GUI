@@ -1,14 +1,14 @@
 import tkinter as tk
 
 class square:
-    def __init__(self, root, row, col):
+    def __init__(self, root, row, col, empty, enemy, player, crystal):
         self.root = root
         self.row = row
         self.col = col
-        self.empty = tk.PhotoImage(file="game_square.png")
-        self.enemy = tk.PhotoImage(file="enemy_square.png")
-        self.player = tk.PhotoImage(file="player_square.png")
-        self.crystal = tk.PhotoImage(file="crystal_square.png")
+        self.empty = tk.PhotoImage(file=empty)
+        self.enemy = tk.PhotoImage(file=enemy)
+        self.player = tk.PhotoImage(file=player)
+        self.crystal = tk.PhotoImage(file=crystal)
         self.label = tk.Label(root, image=self.empty, borderwidth=0)
         self.label.grid(row=self.row, column=self.col)
         

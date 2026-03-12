@@ -1,6 +1,6 @@
 import tkinter as tk
 from square import square
-import random
+import random, sys, os
 
 cells = []
 pos = [3, 3]
@@ -167,20 +167,31 @@ def reset_game(reset_button):
             else:
                 cells[row][col].set_empty()
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 def main():
     print("hello")
     global root
     root.title("Collect Crystals")
     root.configure(background="red")
     root.geometry("700x700+300+0")
-    # root.minsize(720, 480)
-    # root.maxsize(720, 480)
-    # label2 = tk.Label(root, text="Avoid enemies!")
-
+    game_square = resource_path("images/game_square.png")
+    enemy_square = resource_path("images/enemy_square.png")
+    crystal_square = resource_path("images/crystal_square.png")
+    player_square = resource_path("images/player_square.png")
+    
     for row in range(7):
         cells.append([])
         for col in range(7):
-            cell = square(root, row, col)
+            cell = square(root, row, col, game_square, enemy_square, player_square, crystal_square, )
             if row==col==3:
                  cell.set_player()
             elif (row == 0 and col == 0) or (row == 0 and col == 6) or (row == 6 and col == 3):
