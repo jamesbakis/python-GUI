@@ -1,2 +1,4 @@
+The EXE is in the "dist" folder
+
 Command to compile file on my machine:
 python -m PyInstaller -w --onefile --add-data "images;images" main.py
